@@ -57,6 +57,9 @@ const port = 3000;
 app.use(cors()); // se usa cuando no estas usadon el sever o 2 maquinas
 app.use(express.json()); // le estas diciendo que estas aciendo en Api no en paginas web o otras cosas
 
+app.get("/", (req, res)=>{
+  res.send("Connected")
+})
 
 app.get("/Id",(req, res)=>{
   res.json(LDs);
@@ -66,8 +69,7 @@ app.get("/Id/:id",(req, res)=>{// id = string
   const id = Number(req.params.id);// para sacar id que ha introducido
 const eqpenc = LDs.find((elem)=>{
   if(elem.id===id){
-    res.status(201).json({message:"LD encontrado"})
-    res.json(elem);
+    res.status(201).json(elem);
   }
   else{
     res.status(404).json({message:"LD no existe"})
@@ -82,7 +84,7 @@ app.post("/Id", (req, res) => {
     if (error) return res.status(400).json({ error });
 
     const newUser: LD = {
-      id: Date.now().toString(),
+      id: Date.now(),
       ...req.body,
     };
 
@@ -141,6 +143,7 @@ app.delete("/Id/:id", (req, res) => {
 app.listen(port,()=>{
   console.log("Servidor en http://localhost:"+port )
 })
+
 
 
 
